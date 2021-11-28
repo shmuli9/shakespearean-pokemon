@@ -5,6 +5,10 @@ const Search = () => {
 
     const handleSearch = (e: FormEvent) => {
         e.preventDefault()
+
+        fetch(`http://pokeapi.co/api/v2/pokemon-species/${searchQuery}/`, {
+            credentials: 'same-origin'
+        }).then(r => console.log(r))
     }
 
     return <form onSubmit={handleSearch}>
