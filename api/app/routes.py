@@ -1,8 +1,11 @@
 import pokebase as pb
 from flask import jsonify, Blueprint
+from flask_cors import CORS
 
 api = Blueprint("routes", __name__, url_prefix="/api")
 base_routes = Blueprint("base", __name__, url_prefix="")
+CORS(api)
+CORS(base_routes)
 
 
 @base_routes.route('/')
