@@ -1,20 +1,18 @@
-import pprint
-
 import pokebase as pb
-from flask import Flask, jsonify
+from flask import jsonify, Blueprint
 
-app = Flask(__name__)
+api = Blueprint("routes", __name__, url_prefix="/api")
+base_routes = Blueprint("base", __name__, url_prefix="")
 
 
-@app.route('/')
+@base_routes.route('/')
 def index():
     return 'Hello World'
 
 
-@app.route('/api/<species>')
-def hello_world(species):
+@api.route('/<species>')
+def species_flavor(species):
     species_info = pb.pokemon_species(species)
-    pprint.pprint(species_info)
     flavor_text = species_info.results[0].flavor_text_entries[0].flavor_text
 
     return jsonify({
@@ -22,6 +20,6 @@ def hello_world(species):
     })
 
 
-@app.route("/healthz")
+@base_routes.route("/healthz")
 def healthy():
     return jsonify(), 200
