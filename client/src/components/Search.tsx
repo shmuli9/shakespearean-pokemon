@@ -6,7 +6,7 @@ const Search = () => {
     const handleSearch = (e: FormEvent) => {
         e.preventDefault()
 
-        fetch(`https://pokemon-api.onrender.com/api/${searchQuery}`)
+        fetch(`https://pokeapi.co/api/v2/pokemon-species/${searchQuery}/`)
             .then(r => r.json())
             .then(r => console.log(r))
             .catch(e => console.log(e))
