@@ -8,11 +8,6 @@ CORS(api)
 CORS(base_routes)
 
 
-@base_routes.route('/')
-def index():
-    return 'Hello World'
-
-
 @api.route('/<species>')
 def species_flavor(species):
     species_info = pb.pokemon_species(species)
@@ -23,6 +18,7 @@ def species_flavor(species):
     })
 
 
+@base_routes.route('/')
 @base_routes.route("/healthz")
 def healthy():
     return jsonify(), 200
