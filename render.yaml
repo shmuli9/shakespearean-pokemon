@@ -5,4 +5,4 @@ services:
     env: python
     buildCommand: cd api && pip install -r requirements.txt
     startCommand: cd api && gunicorn application:application
-    plan: starter
+    plan: free
