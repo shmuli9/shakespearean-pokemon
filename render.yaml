@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: pokemon-api
+    region: frankfurt
+    env: python
+    buildCommand: cd api && pip install -r requirements.txt
+    startCommand: cd api && gunicorn application:application
