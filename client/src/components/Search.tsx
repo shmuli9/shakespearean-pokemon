@@ -1,22 +1,27 @@
-import React, {FormEvent, useState} from 'react';
+import React, {Dispatch, FormEvent, SetStateAction, useState} from 'react';
+import {MainClient} from "pokenode-ts"
 
-const Search = () => {
+const api = new MainClient()
+
+const Search = (props: { setData: Dispatch<SetStateAction<string[]>> }) => {
+    const {setData} = props
     const [searchQuery, setSearchQuery] = useState("")
-    const [flavorText, setFlavorText] = useState("")
 
     const handleSearch = (e: FormEvent) => {
         e.preventDefault()
 
-        fetch(`https://pokeapi.co/api/v2/pokemon-species/${searchQuery}/`)
-            .then(r => r.json())
-            .then(r => {
-                setFlavorText(r.flavor_text_entries[0].flavor_text)
+        api.pokemon.getPokemonSpeciesByName(searchQuery.toLowerCase())
+            .then(species => {
+                const entries = species.flavor_text_entries
+                const englishEntries = entries
+                    .filter(entry => entry.language.name === "en")
+                    .map(entry => entry.flavor_text)
+                setData(englishEntries)
             })
-            .catch(e => console.log(e))
+            .catch(console.log)
     }
 
     return <form onSubmit={handleSearch}>
-        {flavorText && <input type="text" disabled value={flavorText}/>}
         <input className={"search-box"}
                placeholder={"Search a Pokemon"}
                value={searchQuery}
